@@ -41,19 +41,20 @@
   "provisioners": [
     {
       "type": "shell",
-      "scripts":["provisioning/scripts/bootstrap.sh"]
+      "scripts":["provisioning/scripts/partition.sh"]
+    },
+    {
+      "type": "shell",
+      "inline": "nixos-generate-config --root /mnt"
     },
     {
       "type": "file",
       "source": "./provisioning/nix/",
-      "destination": "/mnt/etc/nixos/"
+      "destination": "/mnt/etc/nixos"
     },
     {
       "type": "shell",
-      "inline": [
-          "nixos-generate-config --root /mnt",
-          "nixos-install"
-      ] 
+      "inline": "nixos-install -j 0"
     }
   ]
 }
