@@ -19,7 +19,7 @@
     neovim
     git
     google-chrome
-    termonad-with-packages
+    #termonad-with-packages
   ];
 
   #users.defaultShell = programs.zsh;
@@ -27,14 +27,12 @@
   users.users.user = {
     isNormalUser = true;
     home = "/home/user";
-    description = "System user";
+    description = "user";
     extraGroups = [ "wheel" "networkmanager" ];
     openssh.authorizedKeys.keys = [ ];
+    initialHashedPassword = "";
   };
 
-  home-manager.users.users = {
-    home.packages = [
-      pkgs.htop
-    ];
-  };
+  home-manager.users.user = (import ./home/home.nix);
+  home-manager.users.root = (import ./home/home.nix);
 }
