@@ -5,7 +5,7 @@
     ../modules/vmware-guest.nix
     ../modules/xmonad
     #../modules/termonad
-    #../modules/home-manager
+    ../modules/home-manager
   ];
 
   services.sshd.enable = true;
@@ -33,6 +33,6 @@
     initialHashedPassword = ""; # initially empty root password
   };
 
-  #home-manager.users.user = (import ./home/home.nix);
-  #home-manager.users.root = (import ./home/home.nix);
+  home-manager.users.user = (import ./home/home.nix);
+  home-manager.users.root = (import ./home/home.nix);
 }
