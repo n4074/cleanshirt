@@ -27,14 +27,19 @@
         "systemctl start sshd<enter>"
       ],
       "disk_size": 81920,
-      "memory": 4096,
+      "memory": 8192,
+      "cores": 2,
+      "sound": true,
+      "usb": true,
       "ssh_wait_timeout": "500s",
       "shutdown_command": "systemctl poweroff",
-      "guest_os_type": "other5xlinux-64",
+      "guest_os_type": "other4xlinux-64",
       "ssh_username": "root",
       "ssh_private_key_file": "./provisioning/ssh.key",
       "vmx_data": { 
-        "firmware": "efi"
+        "firmware": "efi",
+        "mks.enable3d": "TRUE",
+        "gui.fitGuestUsingNativeDisplayResolution": "TRUE"
       }
     }
   ],
@@ -45,7 +50,10 @@
     },
     {
       "type": "shell",
-      "inline": "nixos-generate-config --root /mnt"
+      "inline": [
+        "nix-env -i git",
+        "nixos-generate-config --root /mnt"
+      ]
     },
     {
       "type": "file",
@@ -54,7 +62,7 @@
     },
     {
       "type": "shell",
-      "inline": "nixos-install -j 0"
+      "inline": "nixos-install --show-trace"
     }
   ]
 }
