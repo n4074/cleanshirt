@@ -1,7 +1,7 @@
 {
   "variables": {
-     "iso_url": "https://releases.nixos.org/nixos/19.03/nixos-19.03.173553.6420e2649fa/nixos-minimal-19.03.173553.6420e2649fa-x86_64-linux.iso",
-    "iso_checksum": "235dae81cef862ffc9518b1d8bf27bdb0e222a8858466709f661e5aa05b91e8a",
+     "iso_url": "https://releases.nixos.org/nixos/19.09/nixos-19.09.741.dbad7c7d59f/nixos-minimal-19.09.741.dbad7c7d59f-x86_64-linux.iso",
+    "iso_checksum": "3379a53f998ca7bdc9b775a06d81275df7bd2c002e7d0fa0a3036cad9c3b7aca",
     "iso_checksum_type": "sha256",
     "output_directory": "build/",
     "vm_name": "nixos-base",
@@ -17,13 +17,13 @@
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "output_directory": "{{ user `output_directory` }}/{{ user `vm_name`}}",
       "http_directory": "{{user `http_directory`}}",
-      "boot_wait": "5s",
+      "boot_wait": "3s",
       "boot_key_interval": "5ms",
       "boot_command": [
         "<down><enter><wait30s>",
-        "echo http://{{ .HTTPIP }}:{{ .HTTPPort }} > .packer_http<enter>",
-        "mkdir -m 0700 .ssh<enter>",
-        "curl $(cat .packer_http)/ssh.key.pub > .ssh/authorized_keys<enter>",
+        "sudo su<enter><wait1s>",
+        "mkdir -m 0700 /root/.ssh<enter>",
+        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/ssh.key.pub -o /root/.ssh/authorized_keys<enter>",
         "systemctl start sshd<enter>"
       ],
       "disk_size": 81920,
@@ -39,7 +39,9 @@
       "vmx_data": { 
         "firmware": "efi",
         "mks.enable3d": "TRUE",
-        "gui.fitGuestUsingNativeDisplayResolution": "TRUE"
+        "gui.fitGuestUsingNativeDisplayResolution": "TRUE",
+        "gui.perVMFullscreenAutofitMode": "resize",
+        "gui.perVMWindowAutofitMode":"resize"
       }
     }
   ],

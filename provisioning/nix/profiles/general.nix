@@ -10,6 +10,7 @@
 
   services.sshd.enable = true;
 
+  
 
   nixpkgs.config.allowUnfree = true;
 
@@ -17,6 +18,7 @@
     neovim
     git
     google-chrome
+    termonad-with-packages
   ];
 
   users.defaultUserShell = pkgs.zsh;
