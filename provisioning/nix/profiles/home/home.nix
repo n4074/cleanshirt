@@ -6,10 +6,9 @@
   ];
 
   nixpkgs.config = import ./dotfiles/nixpkgs-config.nix;
-  xdg.configFile."nixpkgs/config.nix".source = dotfiles/nixpkgs-config.nix;
 
   home.packages = [
-#    pkgs.terminad-with-packages
+
   ];
 
   home.file = {
@@ -19,6 +18,7 @@
 
   xdg.configFile = {
     "termonad/termonad.hs".source = ./dotfiles/termonad.hs;
+    "nixpkgs/config.nix".source = dotfiles/nixpkgs-config.nix;
   };
 
   xsession.pointerCursor = {

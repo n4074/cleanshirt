@@ -1,25 +1,101 @@
 { config, pkgs, ... }: {
 
   imports = [
-    ../modules/common.nix
     ../modules/vmware-guest.nix
-    ../modules/xmonad
-    #../modules/termonad
     ../modules/home-manager
   ];
 
-  services.sshd.enable = true;
-
-  
-
   nixpkgs.config.allowUnfree = true;
 
+  boot = {
+    loader.systemd-boot.enable = true; # UEFI - switch to GRUB  if using BIOS
+    loader.efi.canTouchEfiVariables = true;
+
+    kernelPackages = pkgs.linuxPackages_latest;
+    kernelParams = [ "nomodeset" ]; # bugfix - https://github.com/NixOS/nixpkgs/issues/5829
+  };
+
+
   environment.systemPackages = with pkgs; [ 
-    neovim
+    binutils
     git
+    #neovim
     google-chrome
     termonad-with-packages
+    compton
+    feh
   ];
+
+  services.xserver = {
+    enable = true;
+    windowManager.default = "xmonad";
+
+    # TEMP: Fix macbook key bindings
+    xkbModel = "macbook78";
+
+    # For retina display
+    dpi = 180;
+
+    desktopManager.default = "none";
+    desktopManager.xterm.enable = false;
+
+    windowManager.xmonad = {
+      enable = true;
+      enableContribAndExtras = true;
+      extraPackages = with pkgs.haskellPackages; haskellPackages: [ xmobar ];
+    
+      config = builtins.readFile ./home/dotfiles/xmonad.hs; # This will be superseded if a config exists at ~/.xmonad/xmonad.hs 
+    };
+
+    displayManager = {
+      lightdm = {
+        enable = true;
+        greeters.mini = {
+          enable = true;
+          user = "user";
+          extraConfig = ''
+            [greeter]
+            show-password-label = false
+            show-input-cursor = false
+            password-label-text = Something:
+
+            [greeter-theme]
+            window-color = "#ffbb29"
+            layout-space = 10
+          '';
+        };
+
+        background = "/etc/nixos/profiles/home/dotfiles/wallpaper.jpg";
+
+      };
+
+      setupCommands = "${pkgs.xorg.xrandr}/bin/xrandr --output default -s 3360x2100";
+  
+      sessionCommands = ''
+        (sleep 2; feh --bg-fill /etc/nixos/profiles/home/dotfiles/wallpaper.jpg) &
+      '';
+    };
+  };
+
+  fonts.fonts = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    roboto
+    roboto-mono
+    dejavu_fonts
+    liberation_ttf
+    fira-code
+    fira-code-symbols
+  ];
+
+  services.compton = {
+    enable = true;
+    shadow = true;
+    inactiveOpacity = "0.90";
+  };
+
+  services.sshd.enable = true;
 
   users.defaultUserShell = pkgs.zsh;
 
