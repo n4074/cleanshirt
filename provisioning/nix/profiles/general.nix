@@ -1,11 +1,37 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, options, ... }:
 
+let 
+  unstable = builtins.fetchGit {
+    url = https://github.com/nixos/nixpkgs;
+    #sha256 = "0p98dwy3rbvdp6np596sfqnwlra11pif3rbdh02pwdyjmdvkmbvd";
+    ref = "master";
+  };
+in  
+{
   imports = [
-    ../modules/vmware-guest.nix
     ../modules/home-manager
   ];
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+
+    packageOverrides = pkgs: {
+      unstable = import unstable {
+        config = config.nixpkgs.config;
+      };
+    };
+
+  };
+
+  system.stateVersion = "19.09";  
+
+  nix.nixPath =
+    # Prepend default nixPath values.
+    options.nix.nixPath.default ++ 
+    # Append our nixpkgs-overlays.
+    [ "nixpkgs-overlays=/etc/nixos/overlays/" ]
+  ;
+
 
   boot = {
     loader.systemd-boot.enable = true; # UEFI - switch to GRUB  if using BIOS
@@ -19,7 +45,7 @@
   environment.systemPackages = with pkgs; [ 
     binutils
     git
-    #neovim
+    neovim
     google-chrome
     termonad-with-packages
     compton
