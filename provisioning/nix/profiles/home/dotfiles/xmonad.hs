@@ -27,7 +27,7 @@ main = do
     , modMask = mod4Mask  
     --, startupHook = startupHook defaultConfig >> setWMName "LG3D" -- This fixes some issues with Java guis, uncomment if you have issues
     } `additionalKeysP` ( [ ("M-g",   withFocused toggleBorder)
-        , ("M-p"  , spawn "dmenu_run") -- basic example of assigning an application to a key combination
+        , ("M-S-p"  , spawn "rofi -modi combi,window,run -show combi -combi window,run") -- basic example of assigning an application to a key combination
         , ("M-a"  , onPrevNeighbour def W.view)
         , ("M-o"  , onNextNeighbour def W.view)
         , ("M-S-a", onPrevNeighbour def W.shift)

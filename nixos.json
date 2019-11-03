@@ -20,7 +20,7 @@
       "boot_wait": "3s",
       "boot_key_interval": "5ms",
       "boot_command": [
-        "<down><enter><wait30s>",
+        "<down><enter><wait45s>",
         "sudo su<enter><wait1s>",
         "mkdir -m 0700 /root/.ssh<enter>",
         "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/ssh.key.pub -o /root/.ssh/authorized_keys<enter>",

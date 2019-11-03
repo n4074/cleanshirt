@@ -3,7 +3,5 @@
 pkgs.mkShell {
   buildInputs = with pkgs; [
     packer
-    nixops
-    openssh
   ];
 }

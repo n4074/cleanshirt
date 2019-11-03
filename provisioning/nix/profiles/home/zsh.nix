@@ -1,7 +1,7 @@
 { config, pkgs, ... }: {
 
   home.packages = with pkgs; [
-    unstable.starship               # TODO: Stable in 19.09?
+    starship               # TODO: Stable in 19.09?
   ];
 
   # TODO: Stable in 19.09?

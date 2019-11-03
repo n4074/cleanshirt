@@ -1,7 +1,7 @@
 { config, pkgs, ... }: {
 
   imports = [
-    ../../nixpkgs-unstable.nix
+    #../../nixpkgs-unstable.nix
     ./zsh.nix
   ];
 

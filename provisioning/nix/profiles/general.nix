@@ -50,6 +50,7 @@ in
     termonad-with-packages
     compton
     feh
+    rofi-unwrapped
   ];
 
   services.xserver = {
