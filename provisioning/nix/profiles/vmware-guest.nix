@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   imports = [
-      ./general.nix
+      ./common.nix
   ];
 
   virtualisation.vmware.guest.enable = true;
